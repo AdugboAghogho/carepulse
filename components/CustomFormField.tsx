@@ -16,6 +16,7 @@ import {
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import metadata from "react-phone-number-input/";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -87,6 +88,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
+            metadata={metadata} // 👈 FIX: pass metadata
           />
         </FormControl>
       );
