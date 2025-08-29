@@ -1,6 +1,7 @@
 "use server";
 
-import { ID, InputFile, Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
+import { InputFile } from "node-appwrite/file";
 
 import {
   BUCKET_ID,
@@ -65,7 +66,7 @@ export const registerPatient = async ({
     if (identificationDocument) {
       const inputFile =
         identificationDocument &&
-        InputFile.fromBlob(
+        InputFile.fromBuffer(
           identificationDocument?.get("blobFile") as Blob,
           identificationDocument?.get("fileName") as string
         );
@@ -94,6 +95,23 @@ export const registerPatient = async ({
 };
 
 // GET PATIENT
+// export const getPatient = async (userId: string) => {
+//   try {
+//     const patients = await databases.listDocuments(
+//       DATABASE_ID!,
+//       PATIENT_COLLECTION_ID!,
+//       [Query.equal("userId", [userId])]
+//     );
+
+//     return parseStringify(patients.documents[0]);
+//   } catch (error) {
+//     console.error(
+//       "An error occurred while retrieving the patient details:",
+//       error
+//     );
+//   }
+// };
+
 export const getPatient = async (userId: string) => {
   try {
     const patients = await databases.listDocuments(
@@ -102,11 +120,17 @@ export const getPatient = async (userId: string) => {
       [Query.equal("userId", [userId])]
     );
 
+    if (!patients || patients.total === 0 || !patients.documents[0]) {
+      // no patient found
+      return null;
+    }
+
     return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(
       "An error occurred while retrieving the patient details:",
       error
     );
+    return null; // return null instead of undefined to avoid parse crash
   }
 };
