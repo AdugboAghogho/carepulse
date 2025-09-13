@@ -41,11 +41,14 @@ const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
             Your <span className="text-green-500">appointment request</span> has
             been successfully submitted!
           </h2>
-          <p>We&apos;ll be in touch shortly to confirm.</p>
+
+          <p className="text-amber-50">
+            We&apos;ll be in touch shortly to confirm.
+          </p>
         </section>
 
         <section className="request-details">
-          <p>Requested appointment details: </p>
+          <p className="text-amber-50">Requested appointment details: </p>
           <div className="flex items-center gap-3">
             <Image
               src={doctor?.image!}
@@ -54,7 +57,9 @@ const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
               height={100}
               className="size-6"
             />
-            <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
+            <p className="whitespace-nowrap text-amber-50">
+              Dr. {doctor?.name}
+            </p>
           </div>
           <div className="flex gap-2">
             <Image
@@ -63,13 +68,16 @@ const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
               width={24}
               alt="calendar"
             />
-            <p> {formatDateTime(appointment.schedule).dateTime}</p>
+            <p className="text-amber-50">
+              {" "}
+              {formatDateTime(appointment.schedule).dateTime}
+            </p>
           </div>
         </section>
 
         <Button
           variant="outline"
-          className="shad-primary-btn rounded-[3rem]"
+          className="shad-primary-btn cursor-pointer hover:bg-green-600 rounded-[3rem]"
           asChild
         >
           <Link href={`/patients/${userId}/new-appointment`}>
