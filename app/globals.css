@@ -423,6 +423,7 @@
 .radio-group {
   display: flex;
   height: 100%;
+  color: #e8e9e9;
   flex: 1 1 0%;
   align-items: center;
   gap: 0.5rem; /* gap-2 */
@@ -668,7 +669,7 @@
   outline: none !important;
   box-shadow: none !important; /* focus:ring-0 ring-offset-0 */
 }
-.shad-select-trigger::placeholder {
+.shad-select-trigger.shad-select-trigger {
   color: #76828d !important;
 }
 
