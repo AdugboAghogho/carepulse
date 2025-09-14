@@ -734,6 +734,7 @@
 .shad-alert-dialog {
   background-color: #1a1d21 !important; /* dark-400 */
   border: 1px solid #363a3d !important; /* dark-500 */
+  border-radius: 2rem;
   outline: none !important;
 }
 /* space-y-5 => 1.25rem vertical rhythm between children */
