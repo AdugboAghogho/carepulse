@@ -214,7 +214,7 @@ export const AppointmentForm = ({
           isLoading={isLoading}
           className={`${
             type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
-          } w-full rounded-[3rem]`}
+          } w-full rounded-[3rem] cursor-pointer`}
         >
           {buttonLabel}
         </SubmitButton>

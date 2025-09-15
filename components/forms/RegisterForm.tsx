@@ -104,7 +104,13 @@ const RegisterForm = ({ user }: { user: User }) => {
         className="flex-1 space-y-12"
       >
         <section className="space-y-4">
-          <h1 className="header">Welcome 👋</h1>
+          <h1 className="header">
+            Welcome,{" "}
+            <span className="text-green-500">
+              {user?.name?.split(" ")[0] ?? "Guest"}
+            </span>
+            👋
+          </h1>
           <p className="text-dark-700">Let us know more about yourself.</p>
         </section>
 
@@ -168,7 +174,11 @@ const RegisterForm = ({ user }: { user: User }) => {
                   >
                     {GenderOptions.map((option, i) => (
                       <div key={option + i} className="radio-group">
-                        <RadioGroupItem value={option} id={option} />
+                        <RadioGroupItem
+                          value={option}
+                          id={option}
+                          className="cursor-pointer"
+                        />
                         <Label htmlFor={option} className="cursor-pointer">
                           {option}
                         </Label>

@@ -504,7 +504,7 @@
   z-index: 10; /* z-10 */
   width: 100%;
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: 2rem;
   border: 1px solid #1a1d21; /* border-dark-400 */
   box-shadow: var(--shadow-lg-1), var(--shadow-lg-2);
 }
