@@ -34,6 +34,7 @@ export default function SplashLoader({
           width={400}
           alt="loading..."
           className="h-40 w-auto md:h-72"
+          unoptimized
         />
       </div>
     );

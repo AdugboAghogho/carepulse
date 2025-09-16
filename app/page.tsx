@@ -20,6 +20,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
             width={1000}
             alt="patient"
             className="mb-12 h-10 w-fit"
+            priority
           />
 
           <PatientForm />
@@ -41,6 +42,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
         width={1000}
         alt="patient"
         className="side-img max-w-[50%]"
+        priority
       />
     </div>
   );
