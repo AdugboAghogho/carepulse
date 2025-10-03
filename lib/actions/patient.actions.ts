@@ -18,7 +18,7 @@ import { parseStringify } from "../utils";
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUserParams) => {
   try {
-    // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
+    // ... user creation logic ...
     const newuser = await users.create(
       ID.unique(),
       user.email,
@@ -28,20 +28,24 @@ export const createUser = async (user: CreateUserParams) => {
     );
 
     return parseStringify(newuser);
-  } catch (error) 
+  } catch (error) {
+    // <-- CORRECT: Add the opening brace here
 
-   console.error(error);
-  {
-    // Check existing user
-    if (error && error?.code === 409) {
+    // Check existing user (Move this logic inside the correctly opened catch block)
+    if (error && (error as any)?.code === 409) {
+      // Added (error as any) for type safety on 'code'
       const existingUser = await users.list([
         Query.equal("email", [user.email]),
       ]);
 
       return existingUser.users[0];
     }
+
+    // Log generic error after the 409 check
     console.error("An error occurred while creating a new user:", error);
-  }
+    // You might want to re-throw the error here if it's not a 409,
+    // or return a specific error response if the function needs one.
+  } // <-- CORRECT: Closing brace for the catch block
 };
 
 // GET USER
