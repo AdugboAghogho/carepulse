@@ -2,7 +2,7 @@
 import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
-import { Control } from "react-hook-form";
+import { Control, ControllerRenderProps } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 
 import { Checkbox } from "./ui/checkbox";
@@ -28,7 +28,7 @@ export enum FormFieldType {
 }
 
 interface CustomProps {
-  control: Control<any>;
+  control: Control;
   name: string;
   label?: string;
   placeholder?: string;
@@ -38,7 +38,7 @@ interface CustomProps {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
-  renderSkeleton?: (field: any) => React.ReactNode;
+  renderSkeleton?: (field: ControllerRenderProps<FormData>) => React.ReactNode;
   fieldType: FormFieldType;
 }
 

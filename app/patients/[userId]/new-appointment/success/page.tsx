@@ -51,7 +51,7 @@ const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
           <p className="text-amber-50">Requested appointment details: </p>
           <div className="flex items-center gap-3">
             <Image
-              src={doctor?.image!}
+              src={doctor?.image ?? "/path/to/default-doctor-image.png"}
               alt="doctor"
               width={100}
               height={100}

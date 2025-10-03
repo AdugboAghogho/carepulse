@@ -135,7 +135,7 @@ export const updateAppointment = async ({
 
     if (!updatedAppointment) throw Error;
 
-    const smsMessage = `Greetings from CarePulse. ${
+    const smsMessage = `THANKS DANIEL... SUUUI!!!. ${
       type === "schedule"
         ? `Your appointment is confirmed for ${
             formatDateTime(appointment.schedule!, timeZone).dateTime
