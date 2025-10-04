@@ -4,14 +4,13 @@ import { redirect } from "next/navigation";
 import RegisterForm from "@/components/forms/RegisterForm";
 import { getPatient, getUser } from "@/lib/actions/patient.actions";
 
-// ✅ Correct prop typing for Next.js page
-interface RegisterPageProps {
-  params: { userId: string };
+// Define or update the type to reflect Next.js 15+ behavior where `params` is a Promise
+interface SearchParamProps {
+  params: Promise<{ userId: string }>;
 }
 
-const Register = async ({ params }: RegisterPageProps) => {
-  // ✅ No await here — params is just a normal object
-  const { userId } = params;
+const Register = async ({ params }: SearchParamProps) => {
+  const { userId } = await params;
 
   const user = await getUser(userId);
   const patient = await getPatient(userId);
@@ -26,13 +25,13 @@ const Register = async ({ params }: RegisterPageProps) => {
             src="/assets/icons/logo-full.svg"
             height={1000}
             width={1000}
-            alt="patient"
+            alt="logo" // Updated alt for better semantics (was "patient")
             className="mb-12 h-10 w-fit"
           />
 
           <RegisterForm user={user} />
 
-          <p className="copyright py-12">© 2024 CarePulse</p>
+          <p className="copyright py-12">© 2024 CarePluse</p>
         </div>
       </section>
 
@@ -40,7 +39,7 @@ const Register = async ({ params }: RegisterPageProps) => {
         src="/assets/images/register-img.png"
         height={1000}
         width={1000}
-        alt="patient"
+        alt="register"
         className="side-img max-w-[390px]"
       />
     </div>
