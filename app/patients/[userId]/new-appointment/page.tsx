@@ -4,11 +4,14 @@ import { AppointmentForm } from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
 
 interface AppointmentPageProps {
-  params: { userId: string };
+  params: {
+    userId: string;
+  };
 }
 
 const Appointment = async ({ params }: AppointmentPageProps) => {
-  const { userId } = params; // ✅ no await here
+  // ✅ no `await` here, params is just a plain object
+  const { userId } = params;
 
   const patient = await getPatient(userId);
 
