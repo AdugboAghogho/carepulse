@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
+import { SearchParamProps } from "@/types/next"; // adjust path
 
-const Home = async ({ searchParams }: SearchParamProps) => {
-  const sp = await searchParams;
-  const isAdmin = sp?.admin === "true";
+const Home = ({ searchParams }: SearchParamProps) => {
+  const isAdmin = searchParams?.admin === "true";
 
   return (
     <div className="flex h-screen max-h-screen">
