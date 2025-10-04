@@ -3,8 +3,15 @@ import Image from "next/image";
 import { AppointmentForm } from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
 
+// Update the type to reflect Next.js 15+ behavior where `params` is a Promise
+type SearchParamProps = {
+  params: Promise<{ userId: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
 const Appointment = async ({ params }: SearchParamProps) => {
-  const { userId } = params;  
+  // Await the params Promise to access the resolved values
+  const { userId } = await params;  
 
   const patient = await getPatient(userId);
 
@@ -42,3 +49,4 @@ const Appointment = async ({ params }: SearchParamProps) => {
 };
 
 export default Appointment;
+the 
