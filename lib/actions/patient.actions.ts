@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { AppwriteException, ID, Query } from "node-appwrite";
 import { InputFile } from "node-appwrite/file";
 
 import {
@@ -28,16 +28,19 @@ export const createUser = async (user: CreateUserParams) => {
     );
 
     return parseStringify(newuser);
-  } catch (error) {
-    // Check existing user
-    if (error && error === 409) {
-      const existingUser = await users.list([
-        Query.equal("email", [user.email]),
-      ]);
-
-      return existingUser.users[0];
+  } catch (err: unknown) {
+    if (err instanceof AppwriteException) {
+      // Handle Appwrite-specific error
+      if (err.code === 409) {
+        const existingUser = await users.list([
+          Query.equal("email", [user.email]),
+        ]);
+        return existingUser.users[0];
+      }
+      console.error("Appwrite error while creating a user:", err.message);
+    } else {
+      console.error("Unexpected error while creating a user:", err);
     }
-    console.error("An error occurred while creating a new user:", error);
   }
 };
 

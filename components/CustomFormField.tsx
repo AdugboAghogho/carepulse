@@ -37,7 +37,9 @@ interface CustomProps {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
-  renderSkeleton?: (field: ControllerRenderProps<FormData>) => React.ReactNode;
+  renderSkeleton?: (
+    field: ControllerRenderProps<FieldValues>
+  ) => React.ReactNode;
   fieldType: FormFieldType;
 }
 
