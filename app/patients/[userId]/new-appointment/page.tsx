@@ -1,16 +1,14 @@
 import Image from "next/image";
-
 import { AppointmentForm } from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
 
-interface AppointmentPageProps {
-  params: {
-    userId: string;
-  };
-}
+// ✅ Correct type for App Router page
+type AppointmentPageProps = {
+  params: { userId: string };
+};
 
 const Appointment = async ({ params }: AppointmentPageProps) => {
-  // ✅ no `await` here, params is just a plain object
+  // ❌ don’t use "await params"
   const { userId } = params;
 
   const patient = await getPatient(userId);
@@ -33,7 +31,7 @@ const Appointment = async ({ params }: AppointmentPageProps) => {
             type="create"
           />
 
-          <p className="copyright mt-10 py-12">© 2024 CarePluse</p>
+          <p className="copyright mt-10 py-12">© 2024 CarePulse</p>
         </div>
       </section>
 
