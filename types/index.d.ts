@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
+export interface SearchParamProps {
+  searchParams?: { [key: string]: string | undefined };
+}
 
-declare type SearchParamProps = {
+export interface PageParamsProps {
   params: { [key: string]: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
+}
 declare type Gender = "male" | "female" | "other";
 declare type Status = "pending" | "scheduled" | "cancelled";
 
