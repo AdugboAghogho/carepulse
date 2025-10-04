@@ -1,7 +1,6 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
-import { InputFile } from "node-appwrite/file";
+import { ID, InputFile, Query } from "node-appwrite";
 
 import {
   BUCKET_ID,
@@ -18,7 +17,7 @@ import { parseStringify } from "../utils";
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUserParams) => {
   try {
-    // ... user creation logic ...
+    // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
     const newuser = await users.create(
       ID.unique(),
       user.email,
@@ -28,24 +27,17 @@ export const createUser = async (user: CreateUserParams) => {
     );
 
     return parseStringify(newuser);
-  } catch (error) {
-    // <-- CORRECT: Add the opening brace here
-
-    // Check existing user (Move this logic inside the correctly opened catch block)
-    if (error && (error as any)?.code === 409) {
-      // Added (error as any) for type safety on 'code'
+  } catch (error: any) {
+    // Check existing user
+    if (error && error?.code === 409) {
       const existingUser = await users.list([
         Query.equal("email", [user.email]),
       ]);
 
       return existingUser.users[0];
     }
-
-    // Log generic error after the 409 check
     console.error("An error occurred while creating a new user:", error);
-    // You might want to re-throw the error here if it's not a 409,
-    // or return a specific error response if the function needs one.
-  } // <-- CORRECT: Closing brace for the catch block
+  }
 };
 
 // GET USER
@@ -73,7 +65,7 @@ export const registerPatient = async ({
     if (identificationDocument) {
       const inputFile =
         identificationDocument &&
-        InputFile.fromBuffer(
+        InputFile.fromBlob(
           identificationDocument?.get("blobFile") as Blob,
           identificationDocument?.get("fileName") as string
         );
@@ -102,23 +94,6 @@ export const registerPatient = async ({
 };
 
 // GET PATIENT
-// export const getPatient = async (userId: string) => {
-//   try {
-//     const patients = await databases.listDocuments(
-//       DATABASE_ID!,
-//       PATIENT_COLLECTION_ID!,
-//       [Query.equal("userId", [userId])]
-//     );
-
-//     return parseStringify(patients.documents[0]);
-//   } catch (error) {
-//     console.error(
-//       "An error occurred while retrieving the patient details:",
-//       error
-//     );
-//   }
-// };
-
 export const getPatient = async (userId: string) => {
   try {
     const patients = await databases.listDocuments(
@@ -127,17 +102,11 @@ export const getPatient = async (userId: string) => {
       [Query.equal("userId", [userId])]
     );
 
-    if (!patients || patients.total === 0 || !patients.documents[0]) {
-      // no patient found
-      return null;
-    }
-
     return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(
       "An error occurred while retrieving the patient details:",
       error
     );
-    return null; // return null instead of undefined to avoid parse crash
   }
 };
