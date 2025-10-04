@@ -7,22 +7,22 @@ import { getAppointment } from "@/lib/actions/appointment.actions";
 import { formatDateTime } from "@/lib/utils";
 
 interface RequestSuccessProps {
-  params: {
-    userId: string;
-  };
-  searchParams: {
-    appointmentId?: string;
-  };
+  params: { userId: string };
+  searchParams?: { appointmentId?: string };
 }
 
-const RequestSuccess = async ({ searchParams, params }: RequestSuccessProps) => {
-  const { userId } = params; // ❌ no await, just plain object
-  const appointmentId = searchParams?.appointmentId || "";
+// ✅ No need to "await" params/searchParams — they’re plain objects
+const RequestSuccess = async ({
+  params,
+  searchParams,
+}: RequestSuccessProps) => {
+  const userId = params.userId;
+  const appointmentId = searchParams?.appointmentId ?? "";
 
   const appointment = await getAppointment(appointmentId);
 
   const doctor = Doctors.find(
-    (doctor) => doctor.name === appointment.primaryPhysician
+    (doctor) => doctor.name === appointment?.primaryPhysician
   );
 
   return (
@@ -59,14 +59,14 @@ const RequestSuccess = async ({ searchParams, params }: RequestSuccessProps) => 
           <p className="text-amber-50">Requested appointment details: </p>
           <div className="flex items-center gap-3">
             <Image
-              src={doctor?.image ?? "/path/to/default-doctor-image.png"}
+              src={doctor?.image ?? "/assets/images/default-doctor.png"}
               alt="doctor"
               width={100}
               height={100}
               className="size-6"
             />
             <p className="whitespace-nowrap text-amber-50">
-              Dr. {doctor?.name}
+              Dr. {doctor?.name ?? "Unknown"}
             </p>
           </div>
           <div className="flex gap-2">
@@ -77,7 +77,9 @@ const RequestSuccess = async ({ searchParams, params }: RequestSuccessProps) => 
               alt="calendar"
             />
             <p className="text-amber-50">
-              {formatDateTime(appointment.schedule).dateTime}
+              {appointment
+                ? formatDateTime(appointment.schedule).dateTime
+                : "No schedule available"}
             </p>
           </div>
         </section>
@@ -92,7 +94,7 @@ const RequestSuccess = async ({ searchParams, params }: RequestSuccessProps) => 
           </Link>
         </Button>
 
-        <p className="copyright">© 2024 CarePluse</p>
+        <p className="copyright">© 2024 CarePulse</p>
       </div>
     </div>
   );
