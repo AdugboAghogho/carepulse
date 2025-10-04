@@ -6,11 +6,19 @@ import { Doctors } from "@/constants";
 import { getAppointment } from "@/lib/actions/appointment.actions";
 import { formatDateTime } from "@/lib/utils";
 
-const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
-  const { userId } = await params; // ✅ await params
-  const sp = await searchParams; // ✅ await searchParams
+interface RequestSuccessProps {
+  params: {
+    userId: string;
+  };
+  searchParams: {
+    appointmentId?: string;
+  };
+}
 
-  const appointmentId = (sp?.appointmentId as string) || "";
+const RequestSuccess = async ({ searchParams, params }: RequestSuccessProps) => {
+  const { userId } = params; // ❌ no await, just plain object
+  const appointmentId = searchParams?.appointmentId || "";
+
   const appointment = await getAppointment(appointmentId);
 
   const doctor = Doctors.find(
@@ -18,7 +26,7 @@ const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
   );
 
   return (
-    <div className=" flex h-screen max-h-screen px-[5%]">
+    <div className="flex h-screen max-h-screen px-[5%]">
       <div className="success-img">
         <Link href="/">
           <Image
@@ -69,7 +77,6 @@ const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
               alt="calendar"
             />
             <p className="text-amber-50">
-              {" "}
               {formatDateTime(appointment.schedule).dateTime}
             </p>
           </div>

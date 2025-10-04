@@ -11,7 +11,7 @@ type SearchParamProps = {
 
 const Appointment = async ({ params }: SearchParamProps) => {
   // Await the params Promise to access the resolved values
-  const { userId } = await params;  
+  const { userId } = await params;
 
   const patient = await getPatient(userId);
 
@@ -49,4 +49,3 @@ const Appointment = async ({ params }: SearchParamProps) => {
 };
 
 export default Appointment;
-the 
