@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
@@ -42,7 +42,13 @@ interface CustomProps {
   fieldType: FormFieldType;
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = ({
+  field,
+  props,
+}: {
+  field: ControllerRenderProps<Record<string, any>>;
+  props: CustomProps;
+}) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -58,6 +64,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           )}
           <FormControl>
             <Input
+              label={""}
               placeholder={props.placeholder}
               {...field}
               className="shad-input border-0"
