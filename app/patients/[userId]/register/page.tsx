@@ -4,8 +4,14 @@ import { redirect } from "next/navigation";
 import RegisterForm from "@/components/forms/RegisterForm";
 import { getPatient, getUser } from "@/lib/actions/patient.actions";
 
-const Register = async ({ params }: SearchParamProps) => {
-  const { userId } = await params;
+// ✅ Correct prop typing for Next.js page
+interface RegisterPageProps {
+  params: { userId: string };
+}
+
+const Register = async ({ params }: RegisterPageProps) => {
+  // ✅ No await here — params is just a normal object
+  const { userId } = params;
 
   const user = await getUser(userId);
   const patient = await getPatient(userId);
@@ -26,7 +32,7 @@ const Register = async ({ params }: SearchParamProps) => {
 
           <RegisterForm user={user} />
 
-          <p className="copyright py-12">© 2024 CarePluse</p>
+          <p className="copyright py-12">© 2024 CarePulse</p>
         </div>
       </section>
 
