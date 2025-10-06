@@ -1,7 +1,12 @@
 /* eslint-disable no-unused-vars */
 
-interface SearchParamProps {
-  searchParams?: { [key: string]: string | undefined };
+// interface SearchParamProps {
+//   searchParams?: { [key: string]: string | undefined };
+// }
+
+export interface SearchParamProps {
+  params: Promise<{ [key: string]: string }>; // Generic for dynamic/static
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export interface PageParamsProps {
