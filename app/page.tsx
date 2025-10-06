@@ -1,13 +1,17 @@
+// Updated Home component (app/page.tsx or similar)
+// Now imports the fixed SearchParamProps and uses async/await for compatibility
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
-import { SearchParamProps } from "@/types";
+import { SearchParamProps } from "@/types"; // Now properly importable
 
-
-  const Home = ({ searchParams }: SearchParamProps) => {
-  const isAdmin = searchParams?.admin === "true";
+const Home = async ({ searchParams }: SearchParamProps) => {
+  // Await searchParams to resolve the Promise
+  const resolvedSearchParams = await searchParams;
+  const isAdmin = resolvedSearchParams?.admin === "true";
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -19,7 +23,7 @@ import { SearchParamProps } from "@/types";
             src="/assets/icons/logo-full.svg"
             height={1000}
             width={1000}
-            alt="patient"
+            alt="logo"
             className="mb-12 h-10 w-fit"
             priority
           />
@@ -41,7 +45,7 @@ import { SearchParamProps } from "@/types";
         src="/assets/images/onboarding-img.png"
         height={1000}
         width={1000}
-        alt="patient"
+        alt="onboarding illustration"
         className="side-img max-w-[50%]"
         priority
       />

@@ -1,23 +1,24 @@
 /* eslint-disable no-unused-vars */
 
-declare type SearchParamProps = {
+export type SearchParamProps = {
   params: { [key: string]: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-declare type Gender = "male" | "female" | "other";
-declare type Status = "pending" | "scheduled" | "cancelled";
+export type Gender = "male" | "female" | "other";
+export type Status = "pending" | "scheduled" | "cancelled";
 
-declare interface CreateUserParams {
+export interface CreateUserParams {
   name: string;
   email: string;
   phone: string;
 }
-declare interface User extends CreateUserParams {
+
+export interface User extends CreateUserParams {
   $id: string;
 }
 
-declare interface RegisterUserParams extends CreateUserParams {
+export interface RegisterUserParams extends CreateUserParams {
   userId: string;
   birthDate: Date;
   gender: Gender;
@@ -28,27 +29,27 @@ declare interface RegisterUserParams extends CreateUserParams {
   primaryPhysician: string;
   insuranceProvider: string;
   insurancePolicyNumber: string;
-  allergies: string | undefined;
-  currentMedication: string | undefined;
-  familyMedicalHistory: string | undefined;
-  pastMedicalHistory: string | undefined;
-  identificationType: string | undefined;
-  identificationNumber: string | undefined;
-  identificationDocument: FormData | undefined;
+  allergies?: string;
+  currentMedication?: string;
+  familyMedicalHistory?: string;
+  pastMedicalHistory?: string;
+  identificationType?: string;
+  identificationNumber?: string;
+  identificationDocument?: FormData;
   privacyConsent: boolean;
 }
 
-declare type CreateAppointmentParams = {
+export type CreateAppointmentParams = {
   userId: string;
   patient: string;
   primaryPhysician: string;
   reason: string;
   schedule: Date;
   status: Status;
-  note: string | undefined;
+  note?: string;
 };
 
-declare type UpdateAppointmentParams = {
+export type UpdateAppointmentParams = {
   appointmentId: string;
   userId: string;
   timeZone: string;
