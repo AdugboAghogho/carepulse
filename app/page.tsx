@@ -3,9 +3,20 @@ import Link from "next/link";
 
 import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
-import { SearchParamProps } from "@/types"; // adjust path
+// import { SearchParamProps } from "@/types";
 
-const Home = ({ searchParams }: SearchParamProps) => {
+type SearchParamsType = { [key: string]: string | string[] | undefined };
+
+// Define the expected props structure. We will no longer define an interface
+// that extends/satisfies the broken PageProps constraint.
+type HomePageProps = {
+  searchParams?: SearchParamsType;
+  // If your component needs params (from dynamic routes), include them here too:
+  // params?: { [key: string]: string | string[] };
+};
+
+// const Home = ({ searchParams }: SearchParamProps) => {
+const Home = ({ searchParams }: HomePageProps) => {
   const isAdmin = searchParams?.admin === "true";
 
   return (

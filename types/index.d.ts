@@ -4,14 +4,6 @@
 //   searchParams?: { [key: string]: string | undefined };
 // }
 
-export interface SearchParamProps {
-  params: Promise<{ [key: string]: string }>; // Generic for dynamic/static
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export interface PageParamsProps {
-  params: { [key: string]: string };
-}
 declare type Gender = "male" | "female" | "other";
 declare type Status = "pending" | "scheduled" | "cancelled";
 
