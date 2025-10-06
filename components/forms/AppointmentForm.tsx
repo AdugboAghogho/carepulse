@@ -21,6 +21,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { Form } from "../ui/form";
+import { Status } from "@/types";
 
 export const AppointmentForm = ({
   userId,
@@ -46,7 +47,7 @@ export const AppointmentForm = ({
       primaryPhysician: appointment ? appointment?.primaryPhysician : "",
       schedule: appointment
         ? // ? new Date(appointment?.schedule!)
-          new Date(appointment!.schedule)
+          new Date(appointment.schedule)
         : new Date(Date.now()),
       reason: appointment ? appointment.reason : "",
       note: appointment?.note || "",
