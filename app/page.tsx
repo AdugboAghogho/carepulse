@@ -3,12 +3,10 @@ import Link from "next/link";
 
 import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
-// import { SearchParamProps } from "@/types";
+import { SearchParamProps } from "@/types";
 
-import { PageParams } from "@/types";
 
-const Home = async ({ searchParams }: PageParams) => {
-  // const Home = ({ searchParams }: SearchParamProps) => {
+  const Home = ({ searchParams }: SearchParamProps) => {
   const isAdmin = searchParams?.admin === "true";
 
   return (
