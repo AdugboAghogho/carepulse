@@ -5,18 +5,10 @@ import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
 // import { SearchParamProps } from "@/types";
 
-type SearchParamsType = { [key: string]: string | string[] | undefined };
+import { PageParams } from "@/types";
 
-// Define the expected props structure. We will no longer define an interface
-// that extends/satisfies the broken PageProps constraint.
-type HomePageProps = {
-  searchParams?: SearchParamsType;
-  // If your component needs params (from dynamic routes), include them here too:
-  // params?: { [key: string]: string | string[] };
-};
-
-// const Home = ({ searchParams }: SearchParamProps) => {
-const Home = ({ searchParams }: HomePageProps) => {
+const Home = async ({ searchParams }: PageParams) => {
+  // const Home = ({ searchParams }: SearchParamProps) => {
   const isAdmin = searchParams?.admin === "true";
 
   return (
