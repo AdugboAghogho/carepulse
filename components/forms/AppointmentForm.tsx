@@ -41,14 +41,14 @@ export const AppointmentForm = ({
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
-const toDate = (value: unknown): Date => {
-  if (value instanceof Date && !isNaN(value.getTime())) return value;
-  if (typeof value === "string" || typeof value === "number") {
-    const d = new Date(value);
-    if (!isNaN(d.getTime())) return d;
-  }
-  return new Date();
-};
+  const toDate = (value: unknown): Date => {
+    if (value instanceof Date && !isNaN(value.getTime())) return value;
+    if (typeof value === "string" || typeof value === "number") {
+      const d = new Date(value);
+      if (!isNaN(d.getTime())) return d;
+    }
+    return new Date();
+  };
 
   const form = useForm({
     resolver: zodResolver(AppointmentFormValidation),
@@ -232,3 +232,7 @@ const toDate = (value: unknown): Date => {
     </Form>
   );
 };
+
+export type AppointmentFormData = z.infer<
+  ReturnType<typeof getAppointmentSchema>
+>;

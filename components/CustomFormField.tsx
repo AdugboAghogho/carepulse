@@ -15,6 +15,7 @@ import {
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { AppointmentFormData } from "./forms/AppointmentForm";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -26,9 +27,13 @@ export enum FormFieldType {
   SKELETON = "skeleton",
 }
 
+type StrictField = ControllerRenderProps<AppointmentFormData>;
+
 interface CustomProps {
-  control: Control;
-  name: string;
+  control: Control<AppointmentFormData>; // ✅ strict type
+  name: keyof AppointmentFormData;
+  // control: Control;
+  // name: string;
   label?: string;
   placeholder?: string;
   iconSrc?: string;
@@ -38,7 +43,8 @@ interface CustomProps {
   showTimeSelect?: boolean;
   children?: React.ReactNode;
   renderSkeleton?: (
-    field: ControllerRenderProps<FieldValues>
+    // field: ControllerRenderProps<FieldValues>
+    field: StrictField
   ) => React.ReactNode;
   fieldType: FormFieldType;
 }
@@ -47,7 +53,8 @@ const RenderInput = ({
   field,
   props,
 }: {
-  field: ControllerRenderProps<FieldValues, string>;
+  // field: ControllerRenderProps<FieldValues, string>;
+  field: StrictField;
   props: CustomProps;
 }) => {
   switch (props.fieldType) {
