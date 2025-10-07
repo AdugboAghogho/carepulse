@@ -1,7 +1,9 @@
+"use client";
+
 import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
-import { Control, ControllerRenderProps, FieldValues } from "react-hook-form";
+import { Control, ControllerRenderProps } from "react-hook-form"; // ← FieldValues removed
 import PhoneInput from "react-phone-number-input";
 
 import { Checkbox } from "./ui/checkbox";
@@ -15,7 +17,8 @@ import {
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
-import { AppointmentFormData } from "./forms/AppointmentForm";
+
+import type { AppointmentFormData } from "./forms/AppointmentForm"; // adjust relative path if needed
 
 export enum FormFieldType {
   INPUT = "input",
@@ -27,13 +30,14 @@ export enum FormFieldType {
   SKELETON = "skeleton",
 }
 
-type StrictField = ControllerRenderProps<AppointmentFormData>;
+type StrictField = ControllerRenderProps<
+  AppointmentFormData,
+  keyof AppointmentFormData
+>;
 
 interface CustomProps {
-  control: Control<AppointmentFormData>; // ✅ strict type
+  control: Control<AppointmentFormData>;
   name: keyof AppointmentFormData;
-  // control: Control;
-  // name: string;
   label?: string;
   placeholder?: string;
   iconSrc?: string;
@@ -42,10 +46,7 @@ interface CustomProps {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
-  renderSkeleton?: (
-    // field: ControllerRenderProps<FieldValues>
-    field: StrictField
-  ) => React.ReactNode;
+  renderSkeleton?: (field: StrictField) => React.ReactNode;
   fieldType: FormFieldType;
 }
 
