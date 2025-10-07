@@ -72,33 +72,36 @@ const RenderInput = ({
           )}
           <FormControl>
             <Input
-               label=""
-  placeholder={props.placeholder}
-  value={String(field.value ?? "")}
-  onChange={field.onChange}
-  onBlur={field.onBlur}
-  name={field.name}
-  ref={field.ref}
-  disabled={props.disabled}
-              // label={""}
-              // placeholder={props.placeholder}
-              // {...field}
+              label=""
+              placeholder={props.placeholder}
+              value={String(field.value ?? "")}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              name={field.name}
+              ref={field.ref}
+              disabled={props.disabled}
               className="shad-input border-0"
             />
           </FormControl>
         </div>
       );
+
     case FormFieldType.TEXTAREA:
       return (
         <FormControl>
           <Textarea
             placeholder={props.placeholder}
-            {...field}
-            className="shad-textArea"
+            value={String(field.value ?? "")}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            name={field.name}
+            ref={field.ref}
             disabled={props.disabled}
+            className="shad-textArea"
           />
         </FormControl>
       );
+
     case FormFieldType.PHONE_INPUT:
       return (
         <FormControl>
@@ -113,13 +116,14 @@ const RenderInput = ({
           />
         </FormControl>
       );
+
     case FormFieldType.CHECKBOX:
       return (
         <FormControl>
           <div className="flex items-center gap-4">
             <Checkbox
               id={props.name}
-              checked={field.value}
+              checked={Boolean(field.value)}
               onCheckedChange={field.onChange}
             />
             <label htmlFor={props.name} className="checkbox-label">
@@ -128,6 +132,7 @@ const RenderInput = ({
           </div>
         </FormControl>
       );
+
     case FormFieldType.DATE_PICKER:
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">
@@ -141,7 +146,11 @@ const RenderInput = ({
           <FormControl>
             <ReactDatePicker
               showTimeSelect={props.showTimeSelect ?? false}
-              selected={field.value}
+              selected={
+                field.value instanceof Date && !isNaN(field.value.getTime())
+                  ? field.value
+                  : null
+              }
               onChange={(date: Date | null) => field.onChange(date)}
               timeInputLabel="Time:"
               dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
@@ -150,10 +159,14 @@ const RenderInput = ({
           </FormControl>
         </div>
       );
+
     case FormFieldType.SELECT:
       return (
         <FormControl>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={String(field.value ?? "")}
+          >
             <FormControl>
               <SelectTrigger className="shad-select-trigger">
                 <SelectValue placeholder={props.placeholder} />
@@ -165,8 +178,10 @@ const RenderInput = ({
           </Select>
         </FormControl>
       );
+
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
+
     default:
       return null;
   }
