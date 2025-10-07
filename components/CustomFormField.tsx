@@ -72,9 +72,17 @@ const RenderInput = ({
           )}
           <FormControl>
             <Input
-              label={""}
-              placeholder={props.placeholder}
-              {...field}
+               label=""
+  placeholder={props.placeholder}
+  value={String(field.value ?? "")}
+  onChange={field.onChange}
+  onBlur={field.onBlur}
+  name={field.name}
+  ref={field.ref}
+  disabled={props.disabled}
+              // label={""}
+              // placeholder={props.placeholder}
+              // {...field}
               className="shad-input border-0"
             />
           </FormControl>
