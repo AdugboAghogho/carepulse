@@ -48,8 +48,12 @@ export const AppointmentForm = ({
       schedule: appointment
         ? appointment.schedule instanceof Date
           ? appointment.schedule
-          : new Date(appointment.schedule)
-        : new Date(Date.now()),
+          : new Date(appointment.schedule) // Converts string/number to Date
+        : new Date(Date.now()), // Outputs a Date
+      // ? appointment.schedule instanceof Date
+      //   ? appointment.schedule
+      //   : new Date(appointment.schedule)
+      // : new Date(Date.now()),
       reason: appointment ? appointment.reason : "",
       note: appointment?.note || "",
       cancellationReason: appointment?.cancellationReason || "",
