@@ -41,22 +41,25 @@ export const AppointmentForm = ({
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
-  const form = useForm<z.infer<typeof AppointmentFormValidation>>({
+const toDate = (value: unknown): Date => {
+  if (value instanceof Date && !isNaN(value.getTime())) return value;
+  if (typeof value === "string" || typeof value === "number") {
+    const d = new Date(value);
+    if (!isNaN(d.getTime())) return d;
+  }
+  return new Date();
+};
+
+  const form = useForm({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      primaryPhysician: appointment ? appointment.primaryPhysician : "",
-      schedule: appointment
-        ? appointment.schedule instanceof Date
-          ? appointment.schedule
-          : new Date(appointment.schedule) // Converts string/number to Date
-        : new Date(Date.now()), // Outputs a Date
-      // ? appointment.schedule instanceof Date
-      //   ? appointment.schedule
-      //   : new Date(appointment.schedule)
-      // : new Date(Date.now()),
-      reason: appointment ? appointment.reason : "",
-      note: appointment?.note || "",
-      cancellationReason: appointment?.cancellationReason || "",
+      primaryPhysician: appointment?.primaryPhysician ?? "",
+      schedule: appointment?.schedule
+        ? toDate(appointment.schedule)
+        : new Date(),
+      reason: appointment?.reason ?? "",
+      note: appointment?.note ?? "",
+      cancellationReason: appointment?.cancellationReason ?? "",
     },
   });
 
