@@ -7,7 +7,6 @@ import {
   Control,
   ControllerRenderProps,
   FieldValues,
-  FieldPath,
   Path,
 } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
