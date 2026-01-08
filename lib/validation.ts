@@ -118,5 +118,6 @@ export function getAppointmentSchema(type: "create" | "cancel" | "schedule") {
   }
 }
 
-export type AppointmentFormData<T extends "create" | "cancel" | "schedule"> =
-  z.infer<ReturnType<typeof getAppointmentSchema>>;
+export type AppointmentFormData = z.infer<
+  ReturnType<typeof getAppointmentSchema>
+>;
