@@ -3,7 +3,13 @@
 import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
-import { Control, ControllerRenderProps } from "react-hook-form"; // ← FieldValues removed
+import {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  FieldPath,
+  Path,
+} from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 
 import { Checkbox } from "./ui/checkbox";
@@ -18,8 +24,6 @@ import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 
-import type { AppointmentFormData } from "./forms/AppointmentForm"; // adjust relative path if needed
-
 export enum FormFieldType {
   INPUT = "input",
   TEXTAREA = "textarea",
@@ -30,14 +34,9 @@ export enum FormFieldType {
   SKELETON = "skeleton",
 }
 
-type StrictField = ControllerRenderProps<
-  AppointmentFormData,
-  keyof AppointmentFormData
->;
-
-interface CustomProps {
-  control: Control<AppointmentFormData>;
-  name: keyof AppointmentFormData;
+interface CustomProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
   label?: string;
   placeholder?: string;
   iconSrc?: string;
@@ -46,17 +45,16 @@ interface CustomProps {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
-  renderSkeleton?: (field: StrictField) => React.ReactNode;
+  renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
 }
 
-const RenderInput = ({
+const RenderInput = <T extends FieldValues>({
   field,
   props,
 }: {
-  // field: ControllerRenderProps<FieldValues, string>;
-  field: StrictField;
-  props: CustomProps;
+  field: ControllerRenderProps<T, Path<T>>;
+  props: CustomProps<T>;
 }) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
@@ -73,14 +71,10 @@ const RenderInput = ({
           )}
           <FormControl>
             <Input
-              label=""
+              label={""}
               placeholder={props.placeholder}
-              value={String(field.value ?? "")}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              name={field.name}
-              ref={field.ref}
-              disabled={props.disabled}
+              {...field}
+              value={field.value as string}
               className="shad-input border-0"
             />
           </FormControl>
@@ -92,11 +86,8 @@ const RenderInput = ({
         <FormControl>
           <Textarea
             placeholder={props.placeholder}
-            value={String(field.value ?? "")}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            name={field.name}
-            ref={field.ref}
+            {...field}
+            value={field.value as string}
             disabled={props.disabled}
             className="shad-textArea"
           />
@@ -124,7 +115,7 @@ const RenderInput = ({
           <div className="flex items-center gap-4">
             <Checkbox
               id={props.name}
-              checked={Boolean(field.value)}
+              checked={field.value}
               onCheckedChange={field.onChange}
             />
             <label htmlFor={props.name} className="checkbox-label">
@@ -141,17 +132,13 @@ const RenderInput = ({
             src="/assets/icons/calendar.svg"
             height={24}
             width={24}
-            alt="user"
+            alt="calendar"
             className="ml-2"
           />
           <FormControl>
             <ReactDatePicker
               showTimeSelect={props.showTimeSelect ?? false}
-              selected={
-                field.value instanceof Date && !isNaN(field.value.getTime())
-                  ? field.value
-                  : null
-              }
+              selected={field.value}
               onChange={(date: Date | null) => field.onChange(date)}
               timeInputLabel="Time:"
               dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
@@ -164,10 +151,7 @@ const RenderInput = ({
     case FormFieldType.SELECT:
       return (
         <FormControl>
-          <Select
-            onValueChange={field.onChange}
-            defaultValue={String(field.value ?? "")}
-          >
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger className="shad-select-trigger">
                 <SelectValue placeholder={props.placeholder} />
@@ -188,7 +172,7 @@ const RenderInput = ({
   }
 };
 
-const CustomFormField = (props: CustomProps) => {
+const CustomFormField = <T extends FieldValues>(props: CustomProps<T>) => {
   const { control, name, label } = props;
 
   return (
