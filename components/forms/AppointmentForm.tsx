@@ -232,7 +232,3 @@ export const AppointmentForm = ({
     </Form>
   );
 };
-
-export type AppointmentFormData = z.infer<
-  ReturnType<typeof getAppointmentSchema>
->;
