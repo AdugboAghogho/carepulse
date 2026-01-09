@@ -44,7 +44,9 @@ interface CustomProps<T extends FieldValues> {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
-  renderSkeleton?: (field: any) => React.ReactNode;
+  renderSkeleton?: (
+    field: ControllerRenderProps<T, Path<T>>
+  ) => React.ReactNode;
   fieldType: FormFieldType;
 }
 
