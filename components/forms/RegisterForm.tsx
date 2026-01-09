@@ -31,6 +31,8 @@ const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  // FIX: Cast defaultValues to any to bypass strict type checking between
+  // initial state (often strings/nulls) and Schema types (Dates/Files).
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
@@ -38,7 +40,7 @@ const RegisterForm = ({ user }: { user: User }) => {
       name: user.name,
       email: user.email,
       phone: user.phone,
-    },
+    } as any,
   });
 
   const onSubmit = async (values: z.infer<typeof PatientFormValidation>) => {
