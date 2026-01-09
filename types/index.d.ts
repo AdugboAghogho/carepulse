@@ -19,6 +19,9 @@ export interface CreateUser Params {
 }
 
 export interface User extends CreateUser Params {
+  name: string | undefined;
+  email: string | undefined;
+  phone: string | undefined;
   $id: string;
 }
 
