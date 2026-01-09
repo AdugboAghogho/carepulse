@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+// 👇 1. Import DefaultValues here
+import { useForm, DefaultValues } from "react-hook-form";
 import { z } from "zod";
 
 import { Form, FormControl } from "@/components/ui/form";
@@ -31,8 +32,6 @@ const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  // FIX: Cast defaultValues to any to bypass strict type checking between
-  // initial state (often strings/nulls) and Schema types (Dates/Files).
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
@@ -40,7 +39,8 @@ const RegisterForm = ({ user }: { user: User }) => {
       name: user.name,
       email: user.email,
       phone: user.phone,
-    } as any,
+      // 👇 2. Replace 'as any' with this specific cast
+    } as unknown as DefaultValues<z.infer<typeof PatientFormValidation>>,
   });
 
   const onSubmit = async (values: z.infer<typeof PatientFormValidation>) => {
